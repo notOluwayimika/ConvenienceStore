@@ -1,57 +1,117 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConvenienceStoreTests {
+    static List<Product> products = new ArrayList<>();
+    static List<Cashier> cashiers = new ArrayList<Cashier>();
+    List<Manager> managers  = new ArrayList<>();
+    static List<Customer> customers = new ArrayList<>();
+    static Manager manager = new Manager("Ojo-Bello Oluwayimika");
+
+    @BeforeAll
+    public static void initializer(){
+        Cashier cashier1 = new Cashier("Zion",manager);
+        cashiers.add(cashier1);
+        Cashier cashier2 = new Cashier("Ella",manager);
+        cashiers.add(cashier2);
+        Cashier cashier3 = new Cashier("Kylian",manager);
+        cashiers.add(cashier3);
+        Customer customer1 = new Customer("Brian");
+        customers.add(customer1);
+        Product product1 = new Product("eggs",3,100.0,10);
+        products.add(product1);
+        Customer customer2 = new Customer("Jeoffrey");
+        customers.add(customer2);
+        Product product2 = new Product("egusi",7,100.0,15);
+        products.add(product2);
+        Customer customer3 = new Customer("manny");
+        customers.add(customer3);
+        Product product3 = new Product("waakye",6,100.0,3);
+        products.add(product3);
+    }
+
     @Test
     public void hireSingleCashier(){
-        Manager manager = new Manager("001","mike");
-        String cashierName = "Daniel";
-        String cashierId = "002";
-        Cashier cashier = new Cashier(cashierId,cashierName,manager);
+        Cashier cashier = new Cashier("Daniel",manager);
+        cashiers.add(cashier);
         manager.hireSingleCashier(cashier, manager);
     }
 
     @Test
     public void hireMultipleCashiers(){
-        Manager manager = new Manager("001","mike");
-        List<Cashier> cashiers = new ArrayList<Cashier>();
-        cashiers.add(new Cashier("003","Phillip", manager));
-        cashiers.add(new Cashier("004","Curtis", manager));
+        cashiers.add(new Cashier("Phillip", manager));
+        cashiers.add(new Cashier("Curtis", manager));
         manager.hireMultipleCashiers(manager,cashiers);
     }
 
     @Test
     public void sellProduct(){
-        Manager manager = new Manager("001","mike");
         Customer customer = new Customer("Brian");
-        Product product = new Product("001","rice",3,100.0);
-        Cashier cashier = new Cashier("001", "Michelle",manager);
+        customers.add(customer);
+        Product product = new Product("rice",3,100.0,10);
+        products.add(product);
+        Cashier cashier = new Cashier( "Michelle",manager);
+        cashiers.add(cashier);
         cashier.sellProduct(product,customer,cashier);
     }
     @Test
     public void sellMultipleProducts(){
         Customer customer = new Customer("Brian");
-        Manager manager = new Manager("001","mike");
-        Cashier cashier = new Cashier("001", "Michelle",manager);
-        List<Product> products = new ArrayList<>();
-        products.add(new Product("001","rice",5,100));
-        products.add(new Product("002","beans",3,150));
-        products.add(new Product("003","fish",2,350));
+        customers.add(customer);
+        Cashier cashier = new Cashier("Michelle",manager);
+        cashiers.add(cashier);
+        products.add(new Product("ponmo",5,100,10));
+        products.add(new Product("beans",3,150,11));
+        products.add(new Product("fish",2,350,12));
         cashier.sellMultipleProducts(products,customer,cashier);
 
     }
 
     @Test
     public void buyProduct(){
-        Manager manager = new Manager("001","Mike");
-        Cashier cashier = new Cashier("002", "Kate", manager);
+        Cashier cashier = new Cashier( "Kate", manager);
+        cashiers.add(cashier);
         Customer customer = new Customer("Williams");
-        List<Product> products = new ArrayList<>();
-        products.add(new Product("001","rice",5,100));
+        customers.add(customer);
+        products.add(new Product("chicken",5,100,14));
         customer.buyProducts(customer,cashier, products);
 
     }
+
+    @Test
+    public void updateProduct(){
+        products.add(new Product("bole",5,100,12));
+        Product product = products.get(0);
+        String newProductName = "white rice";
+        Integer newProductStock = 5;
+        double newProductPrice = 90.0;
+        manager.updateProduct(product, newProductName, newProductPrice,newProductStock);
+    }
+
+    @Test
+    public void deleteProduct(){
+        products.add(new Product("bole",5,100,12));
+        Product product = products.get(0);
+//        manager.deleteProduct
+    }
+    @Test
+    public void countStaff() throws InterruptedException {
+        manager.countStaff(cashiers);
+    }
+    @Test
+    public void countProducts() throws InterruptedException {
+        manager.countProducts(products);
+    }
+    @Test
+    public void listStaff() throws InterruptedException {
+        manager.listStaff(cashiers);
+    }
+    @Test
+    public void listProducts() throws InterruptedException {
+        manager.listProducts(products);
+    }
+
 }

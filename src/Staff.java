@@ -1,9 +1,12 @@
-public abstract class Staff {
-    protected String name;
-    protected String id;
+import java.util.concurrent.atomic.AtomicInteger;
 
-    public Staff(String id, String name){
-        this.id = id;
+public abstract class Staff {
+    private static final AtomicInteger count = new AtomicInteger(0);
+    protected String name;
+    protected Integer id;
+
+    public Staff( String name){
+        this.id = count.incrementAndGet();
         this.name  = name;
     }
 
@@ -11,7 +14,7 @@ public abstract class Staff {
         return name;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 }
